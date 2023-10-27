@@ -1,0 +1,47 @@
+type FeedCourse {
+    name: String
+}
+
+type FeedSection {
+    name: String
+}
+
+type FeedGroup {
+    name: String
+    description: String
+}
+
+type FeedMetrics {
+    dates: [String]
+    total_likes: [Int]
+    total_dislikes: [Int]
+    total_comments: [Int]
+    total_unique_posters: [Int]
+    total_unique_commenters: [Int]
+}
+
+type Feed @cacheControl(maxAge: 30) {
+    _id: ID!
+    course: FeedCourse
+    section: FeedSection
+    group: FeedGroup
+    createdAt: String
+    updatedAt: String
+    photo: String
+
+    getPosts(input: PropertyFilterInput): [Post]
+    getTrendingPosts(input: PropertyFilterInput): [Post]
+    getTag(input: PropertyFilterInput): Tag
+
+    getDailyMetrics(start_date: String!, end_date: String): FeedMetrics!
+}
+
+type FeedFollow @cacheControl(maxAge: 60) {
+    _id: ID!
+    userId: ID!
+    groupId: ID!
+    createdAt: String
+    updatedAt: String
+
+    getFeed: Feed!
+}

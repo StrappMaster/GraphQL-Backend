@@ -1,0 +1,72 @@
+type Comment @cacheControl(maxAge: 30) {
+    _id: ID
+    userId: ID
+    description: String
+    photos: [String]
+    numLikes: Int
+    numDislikes: Int
+    createdAt: String!
+    postedAt: String
+    getAuthor: User!
+}
+
+type PostContent {
+    _id: ID
+    title: String!
+    body: String
+    photos: [ID]
+}
+
+type Post @cacheControl(maxAge: 30) {
+    _id: ID!
+    groupId: ID!
+    userId: ID!
+    content: PostContent!
+    likes: [ID]!
+    dislikes: [ID]!
+    #tags: [ID]!
+    filter_typeId: ID
+    getNumLikes: Int!
+    getNumDislikes: Int!
+    isPin: Boolean
+    isRestricted: Boolean
+    isAnonymous: Boolean
+    isDeleted: Boolean
+    topics: [String]
+    comments: [Comment]!
+    createdAt: String!
+    updatedAt: String
+    postedAt: String
+
+    getTag(input: PropertyFilterInput): Tag
+    getUsers(input: PropertyFilterInput): [User] @cacheControl(maxAge: 15)
+    getAuthor: User!
+    getUserInteraction(input: UserIdInput!): Int!
+    getFeed: Feed
+}
+
+input PostInsert {
+    groupId: ID!
+    userId: ID!
+    content: ContentInsert!
+    tags: [ID]!
+}
+
+input ContentInsert {
+    title: String!
+    photos: [ID]
+}
+
+input InsertPostInput {
+    document: PostInsert!
+}
+
+input CommentInsert {
+    description: String
+    photos: [String]
+}
+
+input InsertCommentInput {
+    postId: ID!
+    document: CommentInsert!
+}

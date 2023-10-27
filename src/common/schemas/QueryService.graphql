@@ -1,0 +1,47 @@
+enum PropertyFilterComparator {
+    Is
+    IsNot
+    Has
+    NotHas
+    In
+    NotIn
+    GreaterThan
+    GreaterThanOrEqual
+    LessThan
+    LessThanOrEqual
+}
+
+enum PropertyFilterCombinator {
+    AND
+    OR
+}
+
+enum PropertyFilterType {
+    NUMBER
+    FLOAT
+    BOOL
+    STRING
+    ID
+    LIST
+    OBJECT
+}
+
+input SortType {
+    property: String!
+    order: Int
+}
+
+input PropertyFilter {
+    type: PropertyFilterType!
+    comparator: PropertyFilterComparator!
+    property: String!
+    term: String!
+    clientUserId: ID
+}
+
+input PropertyFilterInput {
+    filters: [PropertyFilter!]!
+    limit: Int
+    sort: SortType
+    skip: Int
+}

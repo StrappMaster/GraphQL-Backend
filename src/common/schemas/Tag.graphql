@@ -1,0 +1,20 @@
+enum TagType {
+    FEED_CATEGORY
+    POST_CATEGORY
+    USER_FLAG
+}
+
+type TagContent {
+    title: String
+    photo: String
+}
+
+type Tag @cacheControl(maxAge: 120) {
+    _id: ID!
+    type: TagType!
+    filter: TagContent!
+    isDeleted: Boolean
+
+    getPosts(input: PropertyFilterInput): [Post]
+    getFeeds(input: PropertyFilterInput): [Feed]
+}

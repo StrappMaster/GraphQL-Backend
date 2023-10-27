@@ -1,0 +1,18 @@
+input NameInput {
+    name: String!
+}
+
+type Query {
+    getFeeds(input: PropertyFilterInput): [Feed]
+    getFollowingPosts(input: PropertyFilterInput, userId: ID): [Post] @cacheControl(maxAge: 120)
+    getFeedsFromUniversityName(input: PropertyFilterInput, universityName: String!): [Feed]
+    getPosts(input: PropertyFilterInput): [Post]
+    getTrendingPosts(input: PropertyFilterInput, universityName: String): [Post]
+    getUsers(input: PropertyFilterInput): [User]
+    getSettings(input: PropertyFilterInput): [Settings]
+    getTags(input: PropertyFilterInput): [Tag]
+    getUserBlocks(input: PropertyFilterInput): [UserBlock]!
+    getUniversities(input: PropertyFilterInput): [University]
+    getUniversityByName(input: NameInput): University
+    getUniversityByDomain(input: NameInput): University
+}

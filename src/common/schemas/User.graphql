@@ -1,0 +1,29 @@
+type UserNotification {
+    state: Boolean
+    lastSeen: String
+}
+
+type CloutPoints {
+    postlikes_received: Int!
+    commentlikes_received: Int!
+    comments_received: Int!
+}
+
+type User {
+    _id: ID!
+    major: String
+    gradelevel: String
+    isDeleted: Boolean!
+    notification: UserNotification
+    savedposts: [ID]
+    clout_points: CloutPoints
+
+    getPosts(input: PropertyFilterInput): [Post]
+    getSavedPosts(input: PropertyFilterInput): [Post]
+    getFeedFollows: [FeedFollow]
+    getUniversity: University
+}
+
+input UserIdInput {
+    userId: ID!
+}

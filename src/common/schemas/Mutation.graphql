@@ -1,0 +1,4 @@
+type Mutation {
+    insertPost(input: InsertPostInput): Post
+    insertComment(input: InsertCommentInput): Comment
+}

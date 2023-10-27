@@ -1,0 +1,9 @@
+schema: 'src/**/*.graphql'
+generates:
+    ./src/common/schema/graphql_types.ts:
+        plugins:
+            - typescript
+            - typescript-operations
+    ./src/common/schema/schema.graphql:
+        plugins:
+            - schema-ast

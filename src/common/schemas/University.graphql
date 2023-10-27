@@ -1,0 +1,19 @@
+type UniversityNaming {
+    domains: [String]!
+    name: String!
+    shortname: String!
+    photo: String
+}
+
+type University @cacheControl(maxAge: 120) {
+    _id: ID!
+    university: UniversityNaming!
+    isDeleted: Boolean!
+    isBlocked: Boolean!
+    createdAt: String!
+    color: String!
+
+    getUniversitySpecificFeed: Feed
+    getCollegeFeed: Feed
+}
+

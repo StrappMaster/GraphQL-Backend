@@ -1,0 +1,266 @@
+type CloutPoints {
+  postlikes_received: Int!
+  commentlikes_received: Int!
+  comments_received: Int!;
+}
+
+type Comment {
+  _id: ID
+  userId: ID
+  description: String
+  photos: [String]
+  numLikes: Int
+  numDislikes: Int
+  createdAt: String!
+  postedAt: String
+  getAuthor: User!
+}
+
+input CommentInsert {
+  description: String
+  photos: [String]
+}
+
+input ContentInsert {
+  title: String!
+  photos: [ID]
+}
+
+type Feed {
+  _id: ID!
+  course: FeedCourse
+  section: FeedSection
+  group: FeedGroup
+  createdAt: String
+  updatedAt: String
+  photo: String
+  getPosts(input: PropertyFilterInput): [Post]
+  getTrendingPosts(input: PropertyFilterInput): [Post]
+  getTag(input: PropertyFilterInput): Tag
+  getDailyMetrics(start_date: String!, end_date: String): FeedMetrics!
+}
+
+type FeedCourse {
+  name: String
+}
+
+type FeedFollow {
+  _id: ID!
+  userId: ID!
+  groupId: ID!
+  createdAt: String
+  updatedAt: String
+  getFeed: Feed!
+}
+
+type FeedGroup {
+  name: String
+  description: String
+}
+
+type FeedMetrics {
+  dates: [String]
+  total_likes: [Int]
+  total_dislikes: [Int]
+  total_comments: [Int]
+  total_unique_posters: [Int]
+  total_unique_commenters: [Int]
+}
+
+type FeedSection {
+  name: String
+}
+
+input InsertCommentInput {
+  postId: ID!
+  document: CommentInsert!
+}
+
+input InsertPostInput {
+  document: PostInsert!
+}
+
+type Mutation {
+  insertPost(input: InsertPostInput): Post
+  insertComment(input: InsertCommentInput): Comment
+}
+
+input NameInput {
+  name: String!
+}
+
+type Post {
+  _id: ID!
+  groupId: ID!
+  userId: ID!
+  content: PostContent!
+  likes: [ID]!
+  dislikes: [ID]!
+  filter_typeId: ID
+  getNumLikes: Int!
+  getNumDislikes: Int!
+  isPin: Boolean
+  isRestricted: Boolean
+  isAnonymous: Boolean
+  isDeleted: Boolean
+  topics: [String]
+  comments: [Comment]!
+  createdAt: String!
+  updatedAt: String
+  postedAt: String
+  getTag(input: PropertyFilterInput): Tag
+  getUsers(input: PropertyFilterInput): [User]
+  getAuthor: User!
+  getUserInteraction(input: UserIdInput!): Int!
+  getFeed: Feed
+}
+
+type PostContent {
+  _id: ID
+  title: String!
+  body: String
+  photos: [ID]
+}
+
+input PostInsert {
+  groupId: ID!
+  userId: ID!
+  content: ContentInsert!
+  tags: [ID]!
+}
+
+input PropertyFilter {
+  type: PropertyFilterType!
+  comparator: PropertyFilterComparator!
+  property: String!
+  term: String!
+  clientUserId: ID
+}
+
+enum PropertyFilterCombinator {
+  AND
+  OR
+}
+
+enum PropertyFilterComparator {
+  Is
+  IsNot
+  Has
+  NotHas
+  In
+  NotIn
+  GreaterThan
+  GreaterThanOrEqual
+  LessThan
+  LessThanOrEqual
+}
+
+input PropertyFilterInput {
+  filters: [PropertyFilter!]!
+  limit: Int
+  sort: SortType
+  skip: Int
+}
+
+enum PropertyFilterType {
+  NUMBER
+  FLOAT
+  BOOL
+  STRING
+  ID
+  LIST
+  OBJECT
+}
+
+type Query {
+  getFeeds(input: PropertyFilterInput): [Feed]
+  getFollowingPosts(input: PropertyFilterInput, userId: ID): [Post]
+  getFeedsFromUniversityName(input: PropertyFilterInput, universityName: String!): [Feed]
+  getPosts(input: PropertyFilterInput): [Post]
+  getTrendingPosts(input: PropertyFilterInput, universityName: String): [Post]
+  getUsers(input: PropertyFilterInput): [User]
+  getSettings(input: PropertyFilterInput): [Settings]
+  getTags(input: PropertyFilterInput): [Tag]
+  getUserBlocks(input: PropertyFilterInput): [UserBlock]!
+  getUniversities(input: PropertyFilterInput): [University]
+  getUniversityByName(input: NameInput): University
+  getUniversityByDomain(input: NameInput): University
+}
+
+input SortType {
+  property: String!
+  order: Int
+}
+
+type Tag {
+  _id: ID!
+  type: TagType!
+  filter: TagContent!
+  isDeleted: Boolean
+  getPosts(input: PropertyFilterInput): [Post]
+  getFeeds(input: PropertyFilterInput): [Feed]
+}
+
+type TagContent {
+  title: String
+  photo: String
+}
+
+enum TagType {
+  FEED_CATEGORY
+  POST_CATEGORY
+  USER_FLAG
+}
+
+type University {
+  _id: ID!
+  university: UniversityNaming!
+  isDeleted: Boolean!
+  isBlocked: Boolean!
+  createdAt: String!
+  color: String!
+  getUniversitySpecificFeed: Feed
+  getCollegeFeed: Feed
+}
+
+type UniversityNaming {
+  domains: [String]!
+  name: String!
+  shortname: String!
+  photo: String
+}
+
+type User {
+  _id: ID!
+  major: String
+  gradelevel: String
+  isDeleted: Boolean!
+  notification: UserNotification
+  savedposts: [ID]
+  clout_points: CloutPoints
+  getPosts(input: PropertyFilterInput): [Post]
+  getSavedPosts(input: PropertyFilterInput): [Post]
+  getFeedFollows: [FeedFollow]
+  getUniversity: University
+}
+
+type UserBlock {
+  _id: ID!
+  blockerUser: ID!
+  blockedUser: ID!
+  createdAt: String!
+}
+
+input UserIdInput {
+  userId: ID!
+}
+
+type UserNotification {
+  state: Boolean
+  lastSeen: String
+}
+
+type Settings {
+  _id: ID!
+  cloutCommentsMultiplier: Int
+}

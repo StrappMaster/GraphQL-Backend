@@ -1,0 +1,4 @@
+type Settings {
+    _id: ID!
+    cloutCommentsMultiplier: Int!
+}

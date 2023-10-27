@@ -1,0 +1,16 @@
+{
+    "compilerOptions": {
+        "target": "es2017",
+        "module": "commonjs",
+        "sourceMap": true,
+        "rootDir": "./src",
+        "outDir": "build",
+        "esModuleInterop": true,
+        "strict": true,
+        "moduleResolution": "node"
+    },
+    "exclude": [
+        "build"
+    ],
+    "include": ["src", "**/*.ts", "**/*.graphql", "src/server.js"],
+}

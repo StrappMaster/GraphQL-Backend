@@ -1,0 +1,6 @@
+type UserBlock {
+    _id: ID!
+    blockerUser: ID!
+    blockedUser: ID!
+    createdAt: String!
+}

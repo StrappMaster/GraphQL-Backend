@@ -1,0 +1,10 @@
+package-lock.json
+
+# build directory
+build
+
+.prettierrc
+node_modules
+.vscode
+
+./src/*.js
